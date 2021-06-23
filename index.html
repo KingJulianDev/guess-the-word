@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="style.css" />
+    <title>GuessTheWord v2</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="gamescreen">
+        <div class="top-bar">
+          <div class="top-bar__l-panel">
+            <div class="btn" id="btn-home">🏠</div>
+            <div class="btn" id="btn-restart">🔄</div>
+          </div>
+          <div class="top-bar__r-panel">
+            <div class="btn" id="r-hint">💡</div>
+            <div class="btn" id="t-hint">🔍</div>
+          </div>
+        </div>
+        <div class="keyboard">
+          <div class="keyboard__first-row"></div>
+          <div class="keyboard__second-row"></div>
+        </div>
+      </div>
+      <div class="mainscreen">
+        <div class="section">
+          <h2 class="section-name">LANGUAGE</h2>
+          <div class="current" id="current-language-label">Russian</div>
+          <div class="arrows">
+            <p class="arrow arrow-left" id="lang-left">⇦</p>
+            <p class="arrow arrow-right" id="lang-right">⇨</p>
+          </div>
+          <div class="btn random-mode-btn" id="language-random">
+            Mixed
+          </div>
+        </div>
+        <div class="section middle-section">
+          <h2 class="section-name">MODE</h2>
+          <div class="current" id="current-mode-label">Normal</div>
+          <div class="arrows">
+            <p class="arrow arrow-left" id="mode-left">⇦</p>
+            <p class="arrow arrow-right" id="mode-right">⇨</p>
+          </div>
+          <div class="btn" id="start-btn">Start</div>
+        </div>
+        <div class="section">
+          <h2 class="section-name">CATEGORIES</h2>
+          <div class="current" id="current-categorie-label">Animals</div>
+          <div class="arrows">
+            <p class="arrow arrow-left" id="categories-left">⇦</p>
+            <p class="arrow arrow-right" id="categories-right">⇨</p>
+          </div>
+          <div class="btn random-mode-btn" id="categories-random">
+            Mixed
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
