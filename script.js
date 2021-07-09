@@ -1,8 +1,10 @@
 /* ---------------VARIABLES--------------- */
 const gameData = {
   languages: ['russian', 'english' /* , 'ukraininan' */],
+  isLanguageRandom : false,
   currentLanguageId: 0,
   categories: ['animals', 'geography', 'cars', 'football'],
+  isCategorieRandom : false,
   currentCategorieId: 0,
   modes: ['normal', 'survive'],
   currentModeId: 0,
@@ -480,15 +482,16 @@ function updateLabels(array, name, label) {
 }
 /* ----------KEYBOARDS---------- */
 const keyboards = {
-  englishKeys: [
-    97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112,
-    113, 114, 115, 116, 117, 118, 119, 120, 121, 122,
-  ],
   russianKeys: [
     1072, 1073, 1074, 1075, 1076, 1077, 1105, 1078, 1079, 1080, 1081, 1082,
     1083, 1084, 1085, 1086, 1087, 1088, 1089, 1090, 1091, 1092, 1093, 1094,
     1095, 1096, 1097, 1099, 1100, 1101, 1102, 1103,
   ],
+  englishKeys: [
+    97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112,
+    113, 114, 115, 116, 117, 118, 119, 120, 121, 122,
+  ],
+  
 }
 
 let word /* СЛОВО ВЫБРАННОЕ ДЛЯ ИГРЫ */
@@ -549,16 +552,15 @@ function getRandomWord(lang, categorie) {
   let { isLanguageRandom, isCategorieRandom, languages, categories, words } =
     gameData
   if (isLanguageRandom) {
-    //Если выбран рандомный язык,то выбираем его случайно
+    //If a mixed language mode is selected, then we get language it randomly
     gameData.currentLanguageId = Math.floor(Math.random() * languages.length)
-    // lang = languages[Math.floor(Math.random() * languages.length)]
     lang = languages[gameData.currentLanguageId]
   }
   if (isCategorieRandom) {
-    //Если выбрана рандомная категория,то выбираем ее случайно
+    //If a mixed categorie mode is selected, then we get it randomly
     categorie = categories[Math.floor(Math.random() * categories.length)]
   }
-  word = //Получаем итоговое слово
+  word = // Final word
     words[lang][categorie][
       Math.floor(Math.random() * words[lang][categorie].length)
     ]
@@ -570,23 +572,23 @@ function getRandomWord(lang, categorie) {
 startBtn.onclick = () => {
   gameLoop()
 
-  let restartBtn = document.getElementById('btn-restart') /* РЕСТАРТ СЕССИИ */
+  let restartBtn = document.getElementById('btn-restart') /* Restart btn*/
   restartBtn.onclick = () => {
     restart()
     gameLoop()
   }
 
-  let homeBtn = document.getElementById('btn-home') /* НА ГЛАВНЫЙ ЭКРАН */
+  let homeBtn = document.getElementById('btn-home') /* Go home page btn*/
   homeBtn.onclick = () => {
     restart()
     document.querySelector('.mainscreen').style.display = 'flex'
     document.querySelector('.gamescreen').style.display = 'none'
   }
 
-  let rHint = document.getElementById('r-hint') /* СЛУЧАЙНАЯ ПОДСКАЗКА */
+  let rHint = document.getElementById('r-hint') /* Random hint btn */
   rHint.onclick = () => getRandomHint()
 
-  let tHint = document.getElementById('t-hint')
+  let tHint = document.getElementById('t-hint') /* Target hint btn */
   tHint.onclick = () => {
     isHintActive = !isHintActive
     tHint.classList.toggle('t-hint--active')
@@ -601,14 +603,12 @@ function gameLoop() {
   let { languages, categories, currentCategorieId, currentLanguageId } =
     gameData
 
-  console.log(currentLanguageId)
-
   getRandomWord(languages[currentLanguageId], categories[currentCategorieId])
-  renderKeyboard(keyboards[`${languages[currentLanguageId]}Keys`])
-  console.log(keyboards[`${languages[currentLanguageId]}Keys`])
+  gameData.currentLanguageId === 0 ? renderKeyboard(keyboards.russianKeys) : renderKeyboard(keyboards.englishKeys);
   renderBlankSq()
 }
 
+/* Start a new game */
 function restart() {
   blankSquares.forEach((el) => {
     el.remove()
@@ -620,6 +620,7 @@ function restart() {
   guessedLetters = []
 }
 
+/* Get random hint */
 function getRandomHint() {
   let n = Math.floor(Math.random() * word.length)
   if (guessedLetters.includes(word[n])) {
@@ -634,6 +635,7 @@ function getRandomHint() {
   checkKey(word[n])
 }
 
+/* Get target hint */
 function getTargetHint() {
   let squares = document.querySelectorAll('.blank-square')
   let tHint = document.getElementById('t-hint')
@@ -651,6 +653,7 @@ function getTargetHint() {
   )
 }
 
+/* Check if the key with guessed letter is green */
 function checkKey(letter) {
   let keys = document.querySelectorAll('.key')
   let keysArr = Array.from(keys)
